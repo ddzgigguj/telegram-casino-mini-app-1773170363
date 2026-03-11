@@ -59,7 +59,7 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 // Game types enum
-export const gameTypes = ["crash", "mines", "dice", "scissors", "turtle", "blackjack", "poker", "aviamasters", "luxe", "egypt", "minedrop", "fruitparty", "neonnights", "candyland"] as const;
+export const gameTypes = ["crash", "mines", "dice", "scissors", "turtle", "blackjack", "poker", "aviamasters", "luxe", "egypt", "minedrop"] as const;
 export type GameType = typeof gameTypes[number];
 
 // Bet history table
@@ -144,9 +144,7 @@ export const settings = pgTable("settings", {
   minedropMaxProfit: real("minedrop_max_profit").default(50), // Max profit before forced losses ($)
   goldRushRtpPercent: integer("gold_rush_rtp_percent").default(45), // Gold Rush RTP
   goldRushMaxProfit: real("gold_rush_max_profit").default(50), // Gold Rush max profit before forced losses ($)
-  fruitPartyRtpPercent: integer("fruit_party_rtp_percent").default(45),
-  neonNightsRtpPercent: integer("neon_nights_rtp_percent").default(45),
-  candyLandRtpPercent: integer("candy_land_rtp_percent").default(45),
+
   // Win Limiting System (prevents casino bankruptcy - applies to ALL games except poker)
   // AGGRESSIVE DEFAULTS: Prevents $0.10 -> $100+ wins
   winLimitEnabled: boolean("win_limit_enabled").default(true), // Enable win limiting
@@ -374,10 +372,7 @@ export const gamesConfig: GameConfig[] = [
   { id: "scissors", name: "Rock Paper Scissors", description: "Classic game of chance", minBet: 0.10, maxBet: 100, icon: "hand", gradient: "from-red-600 to-rose-800" },
   { id: "turtle", name: "Turtle Race", description: "Bet on the winner", minBet: 0.10, maxBet: 100, icon: "turtle", gradient: "from-green-600 to-emerald-800" },
   { id: "egypt", name: "Egypt Treasures", description: "Pharaoh's riches await!", minBet: 0.10, maxBet: 100, icon: "pyramid", gradient: "from-amber-600 to-amber-900" },
-  { id: "minedrop", name: "Gold Rush", description: "Mine gold & find treasure!", minBet: 0.10, maxBet: 1000, icon: "pickaxe", gradient: "from-yellow-600 to-amber-900" },
-  { id: "fruitparty", name: "Fruit Party", description: "Cluster pays & cascades!", minBet: 0.10, maxBet: 100, icon: "gem", gradient: "from-green-600 to-lime-800" },
-  { id: "neonnights", name: "Neon Nights", description: "Hack the neon grid!", minBet: 0.10, maxBet: 100, icon: "zap", gradient: "from-cyan-600 to-violet-900" },
-  { id: "candyland", name: "Candy Land", description: "Sweet wins & candy wheel!", minBet: 0.10, maxBet: 100, icon: "star", gradient: "from-pink-600 to-purple-900" },
+  { id: "minedrop", name: "Gold Rush", description: "Mine gold & find treasure!", minBet: 0.10, maxBet: 1000, icon: "pickaxe", gradient: "from-yellow-600 to-amber-900" }
 ];
 
 export const gameNamesRu: Record<GameType, string> = {
@@ -391,12 +386,8 @@ export const gameNamesRu: Record<GameType, string> = {
   aviamasters: "Авиамастерс",
   luxe: "The Luxe Slots",
   egypt: "Сокровища Египта",
-  minedrop: "Gold Rush",
-  fruitparty: "Фруктовая Вечеринка",
-  neonnights: "Неоновые Ночи",
-  candyland: "Страна Конфет",
+  minedrop: "Gold Rush"
 };
-
 export const gameDescriptionsRu: Record<GameType, string> = {
   crash: "Выведи до краша!",
   blackjack: "Обыграй дилера до 21!",
@@ -408,10 +399,7 @@ export const gameDescriptionsRu: Record<GameType, string> = {
   aviamasters: "Долетай до авианосца!",
   luxe: "Золотые рамки и джекпоты",
   egypt: "Сокровища фараона ждут!",
-  minedrop: "Добывай золото и находи сокровища!",
-  fruitparty: "Кластерные выплаты и каскады!",
-  neonnights: "Взломай неоновую сеть!",
-  candyland: "Сладкие победы и колесо конфет!",
+  minedrop: "Добывай золото и находи сокровища!"
 };
 
 // Crash game state

@@ -29,9 +29,7 @@ export interface IStorage {
   updateLuxeRtp(luxeRtpPercent: number, updatedBy: string): Promise<Settings>;
   updateMinedropRtp(minedropRtpPercent: number, updatedBy: string): Promise<Settings>;
   updateGoldRushRtp(goldRushRtpPercent: number, goldRushMaxProfit: number, updatedBy: string): Promise<Settings>;
-  updateFruitPartyRtp(fruitPartyRtpPercent: number, updatedBy: string): Promise<Settings>;
-  updateNeonNightsRtp(neonNightsRtpPercent: number, updatedBy: string): Promise<Settings>;
-  updateCandyLandRtp(candyLandRtpPercent: number, updatedBy: string): Promise<Settings>;
+
   updateWinLimitSettings(settings: {
     winLimitEnabled?: boolean;
     maxWinMultiplier?: number;
@@ -297,35 +295,7 @@ export class DatabaseStorage implements IStorage {
     return newSettings;
   }
 
-  async updateFruitPartyRtp(fruitPartyRtpPercent: number, updatedBy: string): Promise<Settings> {
-    const [updated] = await db.update(settings)
-      .set({ fruitPartyRtpPercent, updatedBy, updatedAt: new Date() })
-      .where(eq(settings.id, "global"))
-      .returning();
-    if (updated) return updated;
-    const [newSettings] = await db.insert(settings).values({ id: "global", fruitPartyRtpPercent, updatedBy, winRatePercent: 50 }).returning();
-    return newSettings;
-  }
 
-  async updateNeonNightsRtp(neonNightsRtpPercent: number, updatedBy: string): Promise<Settings> {
-    const [updated] = await db.update(settings)
-      .set({ neonNightsRtpPercent, updatedBy, updatedAt: new Date() })
-      .where(eq(settings.id, "global"))
-      .returning();
-    if (updated) return updated;
-    const [newSettings] = await db.insert(settings).values({ id: "global", neonNightsRtpPercent, updatedBy, winRatePercent: 50 }).returning();
-    return newSettings;
-  }
-
-  async updateCandyLandRtp(candyLandRtpPercent: number, updatedBy: string): Promise<Settings> {
-    const [updated] = await db.update(settings)
-      .set({ candyLandRtpPercent, updatedBy, updatedAt: new Date() })
-      .where(eq(settings.id, "global"))
-      .returning();
-    if (updated) return updated;
-    const [newSettings] = await db.insert(settings).values({ id: "global", candyLandRtpPercent, updatedBy, winRatePercent: 50 }).returning();
-    return newSettings;
-  }
 
   async updateWinLimitSettings(limitSettings: {
     winLimitEnabled?: boolean;
@@ -1293,20 +1263,7 @@ export class MemStorage implements IStorage {
     return this.settingsData;
   }
 
-  async updateFruitPartyRtp(fruitPartyRtpPercent: number, updatedBy: string): Promise<Settings> {
-    this.settingsData = { ...this.settingsData, fruitPartyRtpPercent, updatedBy, updatedAt: new Date() };
-    return this.settingsData;
-  }
 
-  async updateNeonNightsRtp(neonNightsRtpPercent: number, updatedBy: string): Promise<Settings> {
-    this.settingsData = { ...this.settingsData, neonNightsRtpPercent, updatedBy, updatedAt: new Date() };
-    return this.settingsData;
-  }
-
-  async updateCandyLandRtp(candyLandRtpPercent: number, updatedBy: string): Promise<Settings> {
-    this.settingsData = { ...this.settingsData, candyLandRtpPercent, updatedBy, updatedAt: new Date() };
-    return this.settingsData;
-  }
 
   async updateWinLimitSettings(limitSettings: {
     winLimitEnabled?: boolean;

@@ -137,9 +137,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
   const [minedropRtp, setMinedropRtp] = useState<number>(45);
   const [goldRushRtp, setGoldRushRtp] = useState<number>(45);
   const [goldRushMaxProfit, setGoldRushMaxProfit] = useState<number>(50);
-  const [fruitPartyRtp, setFruitPartyRtp] = useState<number>(45);
-  const [neonNightsRtp, setNeonNightsRtp] = useState<number>(45);
-  const [candyLandRtp, setCandyLandRtp] = useState<number>(45);
+
   const [editingBalance, setEditingBalance] = useState<string | null>(null);
   const [newBalance, setNewBalance] = useState<string>("");
   const [editingStars, setEditingStars] = useState<string | null>(null);
@@ -200,9 +198,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
       setMinedropRtp(data.minedropRtpPercent || 45);
       setGoldRushRtp(data.goldRushRtpPercent || 45);
       setGoldRushMaxProfit(data.goldRushMaxProfit || 50);
-      setFruitPartyRtp(data.fruitPartyRtpPercent || 45);
-      setNeonNightsRtp(data.neonNightsRtpPercent || 45);
-      setCandyLandRtp(data.candyLandRtpPercent || 45);
+
       setDepositLink(data.depositLink || "");
       setDepositAddressTon(data.depositAddressTon || "");
       setDepositAddressTrc20(data.depositAddressTrc20 || "");
@@ -386,56 +382,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
     },
   });
 
-  const updateFruitPartyRtpMutation = useMutation({
-    mutationFn: async (percent: number) => {
-      const res = await fetch("/api/admin/settings/fruitparty-rtp", {
-        method: "POST",
-        headers: { ...adminHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({ fruitPartyRtpPercent: percent }),
-      });
-      if (!res.ok) throw new Error("Failed to update");
-      return res.json();
-    },
-    onSuccess: (_data, savedPercent) => {
-      setFruitPartyRtp(savedPercent);
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/settings"] });
-      toast({ title: t("success"), description: `Fruit Party RTP ${t("setTo")} ${savedPercent}%` });
-    },
-  });
 
-  const updateNeonNightsRtpMutation = useMutation({
-    mutationFn: async (percent: number) => {
-      const res = await fetch("/api/admin/settings/neonnights-rtp", {
-        method: "POST",
-        headers: { ...adminHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({ neonNightsRtpPercent: percent }),
-      });
-      if (!res.ok) throw new Error("Failed to update");
-      return res.json();
-    },
-    onSuccess: (_data, savedPercent) => {
-      setNeonNightsRtp(savedPercent);
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/settings"] });
-      toast({ title: t("success"), description: `Neon Nights RTP ${t("setTo")} ${savedPercent}%` });
-    },
-  });
-
-  const updateCandyLandRtpMutation = useMutation({
-    mutationFn: async (percent: number) => {
-      const res = await fetch("/api/admin/settings/candyland-rtp", {
-        method: "POST",
-        headers: { ...adminHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({ candyLandRtpPercent: percent }),
-      });
-      if (!res.ok) throw new Error("Failed to update");
-      return res.json();
-    },
-    onSuccess: (_data, savedPercent) => {
-      setCandyLandRtp(savedPercent);
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/settings"] });
-      toast({ title: t("success"), description: `Candy Land RTP ${t("setTo")} ${savedPercent}%` });
-    },
-  });
 
   const updateWinLimitsMutation = useMutation({
     mutationFn: async (settings: { 
@@ -1759,86 +1706,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                   </div>
                 </div>
 
-                {/* Fruit Party RTP */}
-                <div className="border-t pt-4">
-                  <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-3">
-                    <span>🍒</span>
-                    Fruit Party RTP: {fruitPartyRtp}%
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <Slider
-                      value={[fruitPartyRtp]}
-                      onValueChange={([v]) => setFruitPartyRtp(v)}
-                      min={0} max={100} step={1} className="flex-1"
-                    />
-                    <Button
-                      onClick={() => updateFruitPartyRtpMutation.mutate(fruitPartyRtp)}
-                      disabled={updateFruitPartyRtpMutation.isPending}
-                    >
-                      {updateFruitPartyRtpMutation.isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : t("saveButton")}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">Fruit Party: 7×7 кластерный слот с каскадами и бонусом Juice Factory</p>
-                  <div className="grid grid-cols-3 gap-2 mt-3">
-                    <Button variant="outline" size="sm" onClick={() => setFruitPartyRtp(35)} className={fruitPartyRtp === 35 ? "border-primary" : ""}>35% ({t("highIncome")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setFruitPartyRtp(45)} className={fruitPartyRtp === 45 ? "border-primary" : ""}>45% ({t("standard")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setFruitPartyRtp(60)} className={fruitPartyRtp === 60 ? "border-primary" : ""}>60% ({t("generous")})</Button>
-                  </div>
-                </div>
 
-                {/* Neon Nights RTP */}
-                <div className="border-t pt-4">
-                  <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-3">
-                    <span>⚡</span>
-                    Neon Nights RTP: {neonNightsRtp}%
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <Slider
-                      value={[neonNightsRtp]}
-                      onValueChange={([v]) => setNeonNightsRtp(v)}
-                      min={0} max={100} step={1} className="flex-1"
-                    />
-                    <Button
-                      onClick={() => updateNeonNightsRtpMutation.mutate(neonNightsRtp)}
-                      disabled={updateNeonNightsRtpMutation.isPending}
-                    >
-                      {updateNeonNightsRtpMutation.isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : t("saveButton")}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">Neon Nights: 5×4 линейный слот с Sticky-Wilds и бонусом Hack the System</p>
-                  <div className="grid grid-cols-3 gap-2 mt-3">
-                    <Button variant="outline" size="sm" onClick={() => setNeonNightsRtp(35)} className={neonNightsRtp === 35 ? "border-primary" : ""}>35% ({t("highIncome")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setNeonNightsRtp(45)} className={neonNightsRtp === 45 ? "border-primary" : ""}>45% ({t("standard")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setNeonNightsRtp(60)} className={neonNightsRtp === 60 ? "border-primary" : ""}>60% ({t("generous")})</Button>
-                  </div>
-                </div>
-
-                {/* Candy Land RTP */}
-                <div className="border-t pt-4">
-                  <label className="text-sm font-medium text-foreground flex items-center gap-2 mb-3">
-                    <span>🍭</span>
-                    Candy Land RTP: {candyLandRtp}%
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <Slider
-                      value={[candyLandRtp]}
-                      onValueChange={([v]) => setCandyLandRtp(v)}
-                      min={0} max={100} step={1} className="flex-1"
-                    />
-                    <Button
-                      onClick={() => updateCandyLandRtpMutation.mutate(candyLandRtp)}
-                      disabled={updateCandyLandRtpMutation.isPending}
-                    >
-                      {updateCandyLandRtpMutation.isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : t("saveButton")}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">Candy Land: 6×5 кластерный слот с множителями и бонусом Candy Wheel</p>
-                  <div className="grid grid-cols-3 gap-2 mt-3">
-                    <Button variant="outline" size="sm" onClick={() => setCandyLandRtp(35)} className={candyLandRtp === 35 ? "border-primary" : ""}>35% ({t("highIncome")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setCandyLandRtp(45)} className={candyLandRtp === 45 ? "border-primary" : ""}>45% ({t("standard")})</Button>
-                    <Button variant="outline" size="sm" onClick={() => setCandyLandRtp(60)} className={candyLandRtp === 60 ? "border-primary" : ""}>60% ({t("generous")})</Button>
-                  </div>
-                </div>
 
                 {/* Win Limit Settings */}
                 <div className="border-t pt-4">

@@ -3210,47 +3210,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/settings/fruitparty-rtp", checkAdmin, async (req, res) => {
-    try {
-      const { fruitPartyRtpPercent } = req.body;
-      const adminId = req.headers["x-admin-id"] as string;
-      if (fruitPartyRtpPercent < 0 || fruitPartyRtpPercent > 100) {
-        return res.status(400).json({ error: "Fruit Party RTP must be between 0 and 100" });
-      }
-      const updated = await storage.updateFruitPartyRtp(fruitPartyRtpPercent, adminId);
-      res.json(updated);
-    } catch (error) {
-      res.status(400).json({ error: "Failed to update Fruit Party RTP" });
-    }
-  });
 
-  app.post("/api/admin/settings/neonnights-rtp", checkAdmin, async (req, res) => {
-    try {
-      const { neonNightsRtpPercent } = req.body;
-      const adminId = req.headers["x-admin-id"] as string;
-      if (neonNightsRtpPercent < 0 || neonNightsRtpPercent > 100) {
-        return res.status(400).json({ error: "Neon Nights RTP must be between 0 and 100" });
-      }
-      const updated = await storage.updateNeonNightsRtp(neonNightsRtpPercent, adminId);
-      res.json(updated);
-    } catch (error) {
-      res.status(400).json({ error: "Failed to update Neon Nights RTP" });
-    }
-  });
-
-  app.post("/api/admin/settings/candyland-rtp", checkAdmin, async (req, res) => {
-    try {
-      const { candyLandRtpPercent } = req.body;
-      const adminId = req.headers["x-admin-id"] as string;
-      if (candyLandRtpPercent < 0 || candyLandRtpPercent > 100) {
-        return res.status(400).json({ error: "Candy Land RTP must be between 0 and 100" });
-      }
-      const updated = await storage.updateCandyLandRtp(candyLandRtpPercent, adminId);
-      res.json(updated);
-    } catch (error) {
-      res.status(400).json({ error: "Failed to update Candy Land RTP" });
-    }
-  });
 
   // Update win limit settings (prevents big wins from small bets)
   app.post("/api/admin/settings/win-limits", checkAdmin, async (req, res) => {
