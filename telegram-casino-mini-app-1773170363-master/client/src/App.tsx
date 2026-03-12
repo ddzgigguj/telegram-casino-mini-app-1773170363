@@ -24,9 +24,7 @@ import { PokerTable } from "@/pages/PokerTable";
 import { TheLuxeGame } from "@/pages/TheLuxeGame";
 import { EgyptTreasuresGame } from "@/pages/EgyptTreasuresGame";
 import { MineSlotGame } from "@/pages/MineSlotGame";
-import { FruitPartyGame } from "@/pages/FruitPartyGame";
-import { NeonNightsGame } from "@/pages/NeonNightsGame";
-import { CandyLandGame } from "@/pages/CandyLandGame";
+
 import { ProfilePage } from "@/pages/ProfilePage";
 import { WalletPage } from "@/pages/WalletPage";
 import AdminPanel from "@/pages/AdminPanel";
@@ -244,35 +242,7 @@ function GameApp() {
     );
   }
 
-  if (currentScreen === "fruitparty") {
-    return (
-      <FruitPartyGame
-        balance={gameBalance}
-        onBalanceChange={handleBalanceChange}
-        onBack={handleBack}
-      />
-    );
-  }
 
-  if (currentScreen === "neonnights") {
-    return (
-      <NeonNightsGame
-        balance={gameBalance}
-        onBalanceChange={handleBalanceChange}
-        onBack={handleBack}
-      />
-    );
-  }
-
-  if (currentScreen === "candyland") {
-    return (
-      <CandyLandGame
-        balance={gameBalance}
-        onBalanceChange={handleBalanceChange}
-        onBack={handleBack}
-      />
-    );
-  }
 
   if (currentScreen === "poker") {
     return (
